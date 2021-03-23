@@ -41,6 +41,12 @@ var content = `var SignaturePad = (function (document) {
 
     this._handleMouseEvents();
     this._handleTouchEvents();
+
+    document.addEventListener('message', function(event) {
+      if (event.data === 'action_clear') {
+        self.clear();
+      }
+    });
   };
 
   SignaturePad.prototype.clear = function () {
