@@ -33,7 +33,7 @@ var content = (penColor, backgroundColor, dataURL) => `
         point.x = translatedX;
         point.y = translatedY;
       }; */
-      signaturePad.minWidth = 1;
+      signaturePad.minWidth = 1.5;
       signaturePad.maxWidth = 4;
       if ('${dataURL}') {
         signaturePad.fromDataURL('${dataURL}');
