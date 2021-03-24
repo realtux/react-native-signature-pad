@@ -15,7 +15,7 @@
  * http://www.lemoda.net/maths/bezier-length/index.html
  *
  */
-var content = `var SignaturePad = (function (document) {
+var content = `var SignaturePad = (function (document, window) {
   "use strict";
 
   var SignaturePad = function (canvas, options) {
@@ -42,6 +42,11 @@ var content = `var SignaturePad = (function (document) {
     this._handleMouseEvents();
     this._handleTouchEvents();
 
+    window.addEventListener('message', function(event) {
+      if (event.data === 'action_clear') {
+        self.clear();
+      }
+    });
     document.addEventListener('message', function(event) {
       if (event.data === 'action_clear') {
         self.clear();
@@ -367,6 +372,6 @@ var content = `var SignaturePad = (function (document) {
   };
 
   return SignaturePad;
-})(document);`;
+})(document, window);`;
 
 export default content;
