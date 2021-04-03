@@ -14,6 +14,7 @@ export default class SignaturePad extends Component {
     webview = null;
 
     static propTypes = {
+        onStart: PropTypes.func,
         onChange: PropTypes.func,
         onError: PropTypes.func,
         style: ViewPropTypes.style,
@@ -22,6 +23,7 @@ export default class SignaturePad extends Component {
     };
 
     static defaultProps = {
+        onStart: () => {},
         onChange: () => {},
         onError: () => {},
         style: {}
@@ -100,6 +102,10 @@ export default class SignaturePad extends Component {
         this.props.onError({details: args});
     };
 
+    _bridged_startedStroke = () => {
+        this.props.onStart();
+    };
+
     _bridged_finishedStroke = ({base64DataUrl}) => {
         this.props.onChange({base64DataUrl});
         this.setState({base64DataUrl});
@@ -116,6 +122,11 @@ export default class SignaturePad extends Component {
     }
 
     onMessage = (event) => {
+        if (event.nativeEvent.data === '{}') {
+            this._bridged_startedStroke();
+            return;
+        }
+
         var base64DataUrl = JSON.parse(event.nativeEvent.data);
         this._bridged_finishedStroke(base64DataUrl);
     }
